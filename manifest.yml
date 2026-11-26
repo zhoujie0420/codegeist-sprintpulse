@@ -1,0 +1,67 @@
+modules:
+  jira:issuePanel:
+    - key: sprintpulse-issue-panel
+      resource: main
+      resolver:
+        function: resolver
+      render: native
+      title: SprintPulse Rovo — Delivery Risk & Triage
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+  rovo:agent:
+    - key: sprintpulse-rovo-agent
+      name: SprintPulse Delivery Co-Pilot
+      description: Context-aware Jira delivery risk analyst and blocker triage Rovo Agent.
+      prompt: >
+        You are SprintPulse Delivery Co-Pilot, an Atlassian Rovo Agent built for software
+        engineering teams. When asked about a Jira issue or sprint blocker, always call the
+        analyze-issue-risk action first to compute a transparent 0-100 delivery risk score,
+        identify missing acceptance criteria or stalled handoffs, and present a concise,
+        prioritized mitigation checklist via draft-mitigation-plan.
+      conversationStarters:
+        - Analyze delivery risk for this Jira issue
+        - Draft a blocker mitigation plan for our current sprint
+        - Check if this ticket is missing acceptance criteria or an owner
+      actions:
+        - analyze-issue-risk
+        - draft-mitigation-plan
+  action:
+    - key: analyze-issue-risk
+      name: Analyze Jira Issue Delivery Risk
+      function: rovoAnalyzeRisk
+      actionVerb: GET
+      description: Computes a 0-100 delivery risk score, risk tier, and concrete risk factors for a Jira issue.
+      inputs:
+        issueKey:
+          title: Jira Issue Key
+          type: string
+          required: true
+          description: The Jira issue key (e.g., ENG-142).
+    - key: draft-mitigation-plan
+      name: Draft Sprint Mitigation Plan
+      function: rovoDraftMitigation
+      actionVerb: GET
+      description: Produces a prioritized engineering mitigation checklist for a Jira issue based on its risk factors.
+      inputs:
+        issueKey:
+          title: Jira Issue Key
+          type: string
+          required: true
+          description: The Jira issue key (e.g., ENG-142).
+  function:
+    - key: resolver
+      handler: index.handler
+    - key: rovoAnalyzeRisk
+      handler: index.rovoAnalyzeRisk
+    - key: rovoDraftMitigation
+      handler: index.rovoDraftMitigation
+resources:
+  - key: main
+    path: src/frontend/index.jsx
+permissions:
+  scopes:
+    - read:jira-work
+    - write:jira-work
+app:
+  runtime:
+    name: nodejs22.x
+  id: ari:cloud:ecosystem::app/00000000-0000-0000-0000-000000000000

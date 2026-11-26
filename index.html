@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SprintPulse Rovo — Atlassian Forge Jira Delivery Risk & Rovo Agent | Codegeist 2026</title>
+  <style>
+    :root {
+      --bg: #0b1120; --surface: #111a2e; --surface2: #17233d; --border: #253659;
+      --blue: #2684ff; --cyan: #38bdf8; --text: #edf2ff; --muted: #8ea1c4;
+      --green: #22c55e; --amber: #f59e0b; --red: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background: radial-gradient(circle at 15% 10%, rgba(38,132,255,0.16), transparent 40%), var(--bg);
+      color: var(--text); min-height: 100vh; padding: 24px; line-height: 1.5;
+    }
+    .wrap { max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+    header {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 20px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--blue), var(--cyan)); color: #fff; font-weight: 800;
+    }
+    h1 { font-size: 19px; }
+    .sub { font-size: 12.5px; color: var(--muted); }
+    .pill {
+      padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;
+      border: 1px solid rgba(38,132,255,0.45); background: rgba(38,132,255,0.14); color: #7cc4ff;
+    }
+    .layout { display: grid; grid-template-columns: 0.95fr 1.15fr; gap: 18px; }
+    .panel {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    h2 { font-size: 15px; color: #f8fafc; }
+    .issue-list { display: flex; flex-direction: column; gap: 10px; }
+    .issue-btn {
+      text-align: left; background: var(--surface2); border: 1px solid var(--border);
+      color: var(--text); padding: 12px 14px; border-radius: 11px; cursor: pointer;
+      display: flex; flex-direction: column; gap: 4px; transition: all 0.14s;
+    }
+    .issue-btn:hover, .issue-btn.active { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(38,132,255,0.25); }
+    .issue-top { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+    .key { font-family: monospace; font-weight: 700; color: var(--cyan); }
+    .badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+    .b-CRITICAL { background: rgba(239,68,68,0.18); color: #f87171; }
+    .b-ELEVATED { background: rgba(245,158,11,0.18); color: #fbbf24; }
+    .b-HEALTHY { background: rgba(34,197,94,0.18); color: #4ade80; }
+    .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .kpi { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+    .kpi-l { font-size: 11px; color: var(--muted); text-transform: uppercase; }
+    .kpi-v { font-size: 24px; font-weight: 800; margin-top: 2px; }
+    .card-list { display: flex; flex-direction: column; gap: 8px; }
+    .item {
+      background: #0c1426; border: 1px solid var(--border); border-radius: 9px;
+      padding: 10px 12px; font-size: 12.5px; display: flex; justify-content: space-between; gap: 10px;
+    }
+    .rovo-box {
+      background: #091020; border: 1px solid rgba(56,189,248,0.35); border-radius: 11px;
+      padding: 14px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .rovo-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn {
+      background: var(--blue); color: #fff; border: none; border-radius: 8px;
+      padding: 7px 12px; font-size: 12px; font-weight: 600; cursor: pointer;
+    }
+    .btn-ghost { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
+    .rovo-out {
+      font-family: monospace; font-size: 12px; white-space: pre-wrap; color: #dbeafe;
+      background: #060b16; border: 1px solid var(--border); border-radius: 8px; padding: 10px;
+    }
+    footer { text-align: center; font-size: 12px; color: var(--muted); }
+    footer a { color: var(--cyan); text-decoration: none; }
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">SP</div>
+        <div>
+          <h1>SprintPulse Rovo</h1>
+          <div class="sub">Atlassian Forge Jira Issue Panel &amp; Rovo Delivery Co-Pilot · Codegeist 2026</div>
+        </div>
+      </div>
+      <span class="pill">Atlassian Forge (`jira:issuePanel` + `rovo:agent` + `action`)</span>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <h2>1. Active Sprint Jira Issues (Interactive Forge Preview)</h2>
+        <div class="issue-list" id="issueList"></div>
+      </section>
+
+      <section class="panel">
+        <h2>2. SprintPulse Jira Issue Panel &amp; Rovo Agent Output</h2>
+        <div class="kpis">
+          <div class="kpi"><div class="kpi-l">Delivery Risk Score</div><div class="kpi-v" id="kScore">—</div></div>
+          <div class="kpi"><div class="kpi-l">Risk Tier</div><div class="kpi-v" id="kTier">—</div></div>
+          <div class="kpi"><div class="kpi-l">Risk Factors</div><div class="kpi-v" id="kCount">0</div></div>
+        </div>
+
+        <div>
+          <h2 style="margin-bottom:8px;">Detected Risk Factors</h2>
+          <div class="card-list" id="factorList"></div>
+        </div>
+
+        <div>
+          <h2 style="margin-bottom:8px;">Prioritized Mitigation Playbook</h2>
+          <div class="card-list" id="planList"></div>
+        </div>
+
+        <div class="rovo-box">
+          <h2>Rovo Agent: SprintPulse Delivery Co-Pilot</h2>
+          <div class="rovo-actions">
+            <button class="btn" id="btnAnalyze">Run `analyze-issue-risk` Action</button>
+            <button class="btn btn-ghost" id="btnMitigate">Run `draft-mitigation-plan` Action</button>
+          </div>
+          <div class="rovo-out" id="rovoOut">Select any Jira issue on the left or click a Rovo Agent action above.</div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      SprintPulse Rovo · Built for Codegeist 2026 (Apps for Software Teams + Best Rovo Agent) · MIT License ·
+      <a href="https://github.com/zhoujie0420/codegeist-sprintpulse" target="_blank" rel="noopener">GitHub Repository</a>
+    </footer>
+  </div>
+
+  <script type="module">
+    import { evaluateIssueRisk, buildMitigationPlan } from "./src/risk-engine.js";
+
+    const SAMPLE_ISSUES = [
+      {
+        key: "ENG-404",
+        summary: "Migrate OAuth tokens to zero-downtime key rotation",
+        priority: "Highest",
+        status: "In Progress",
+        assignee: "",
+        storyPoints: 13,
+        daysInStatus: 6,
+        blockers: ["INFRA-91", "SEC-12"],
+        dueDate: "2026-11-20",
+        now: "2026-11-26",
+        description: "Need to rotate keys before production cutover."
+      },
+      {
+        key: "ENG-409",
+        summary: "Upgrade payment webhook retry worker to exponential backoff",
+        priority: "High",
+        status: "In Review",
+        assignee: "Maya Lin",
+        storyPoints: 8,
+        daysInStatus: 5,
+        blockers: [],
+        dueDate: "2026-12-03",
+        now: "2026-11-26",
+        description: "Acceptance Criteria: Given a 502 webhook error, when worker retries, then backoff doubles up to 5 attempts."
+      },
+      {
+        key: "ENG-410",
+        summary: "Add unit tests for cursor pagination edge cases",
+        priority: "Medium",
+        status: "In Progress",
+        assignee: "Alex Chen",
+        storyPoints: 2,
+        daysInStatus: 1,
+        blockers: [],
+        dueDate: "2026-12-10",
+        now: "2026-11-26",
+        description: "Acceptance Criteria: Given a cursor token, when requesting page 2, then return deterministic rows with zero duplicates."
+      }
+    ];
+
+    let currentIdx = 0;
+    const issueList = document.getElementById("issueList");
+    const factorList = document.getElementById("factorList");
+    const planList = document.getElementById("planList");
+    const rovoOut = document.getElementById("rovoOut");
+
+    function render() {
+      const issue = SAMPLE_ISSUES[currentIdx];
+      const report = evaluateIssueRisk(issue);
+      const plan = buildMitigationPlan(report);
+
+      issueList.innerHTML = SAMPLE_ISSUES.map((it, idx) => {
+        const r = evaluateIssueRisk(it);
+        return `
+          <button class="issue-btn ${idx === currentIdx ? "active" : ""}" data-idx="${idx}">
+            <div class="issue-top">
+              <span class="key">${it.key} · ${it.priority} · ${it.storyPoints} pts</span>
+              <span class="badge b-${r.tier}">${r.tier} (${r.score})</span>
+            </div>
+            <div><strong>${it.summary}</strong></div>
+            <div class="sub">Status: ${it.status} (${it.daysInStatus}d) · Assignee: ${it.assignee || "Unassigned"} · Blockers: ${it.blockers.length}</div>
+          </button>
+        `;
+      }).join("");
+
+      issueList.querySelectorAll(".issue-btn").forEach((b) => {
+        b.addEventListener("click", () => { currentIdx = Number(b.dataset.idx); render(); });
+      });
+
+      document.getElementById("kScore").textContent = `${report.score}/100`;
+      document.getElementById("kTier").textContent = report.tier;
+      document.getElementById("kCount").textContent = String(report.factors.length);
+
+      factorList.innerHTML = report.factors.length
+        ? report.factors.map((f) => `<div class="item"><span><strong>${f.code}</strong> — ${f.detail}</span><span class="key">+${f.weight}</span></div>`).join("")
+        : `<div class="item"><span>No delivery risk factors detected.</span><span class="badge b-HEALTHY">OK</span></div>`;
+
+      planList.innerHTML = plan.actions
+        .map((a) => `<div class="item"><span><strong>${a.id}</strong>: ${a.step}</span><span class="key">${a.owner}</span></div>`)
+        .join("");
+
+      rovoOut.textContent = JSON.stringify({ action: "analyze-issue-risk", issueKey: report.issueKey, score: report.score, tier: report.tier, factors: report.factors.length }, null, 2);
+    }
+
+    document.getElementById("btnAnalyze").addEventListener("click", () => {
+      const report = evaluateIssueRisk(SAMPLE_ISSUES[currentIdx]);
+      rovoOut.textContent = JSON.stringify({ rovoAction: "analyze-issue-risk", result: report }, null, 2);
+    });
+    document.getElementById("btnMitigate").addEventListener("click", () => {
+      const report = evaluateIssueRisk(SAMPLE_ISSUES[currentIdx]);
+      const plan = buildMitigationPlan(report);
+      rovoOut.textContent = JSON.stringify({ rovoAction: "draft-mitigation-plan", result: plan }, null, 2);
+    });
+
+    render();
+  </script>
+</body>
+</html>
