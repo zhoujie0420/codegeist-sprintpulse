@@ -12,11 +12,12 @@ modules:
       name: SprintPulse Delivery Co-Pilot
       description: Context-aware Jira delivery risk analyst and blocker triage Rovo Agent.
       prompt: >
-        You are SprintPulse Delivery Co-Pilot, an Atlassian Rovo Agent built for software
-        engineering teams. When asked about a Jira issue or sprint blocker, always call the
-        analyze-issue-risk action first to compute a transparent 0-100 delivery risk score,
-        identify missing acceptance criteria or stalled handoffs, and present a concise,
-        prioritized mitigation checklist via draft-mitigation-plan.
+        You are SprintPulse Delivery Co-Pilot, an Atlassian Rovo Agent built for
+        software engineering teams. When asked about a Jira issue or sprint
+        blocker, always call the analyze-issue-risk action first to compute a
+        transparent 0-100 delivery risk score, identify missing acceptance
+        criteria or stalled handoffs, and present a concise, prioritized
+        mitigation checklist via draft-mitigation-plan.
       conversationStarters:
         - Analyze delivery risk for this Jira issue
         - Draft a blocker mitigation plan for our current sprint
@@ -29,7 +30,8 @@ modules:
       name: Analyze Jira Issue Delivery Risk
       function: rovoAnalyzeRisk
       actionVerb: GET
-      description: Computes a 0-100 delivery risk score, risk tier, and concrete risk factors for a Jira issue.
+      description: Computes a 0-100 delivery risk score, risk tier, and concrete risk
+        factors for a Jira issue.
       inputs:
         issueKey:
           title: Jira Issue Key
@@ -40,7 +42,8 @@ modules:
       name: Draft Sprint Mitigation Plan
       function: rovoDraftMitigation
       actionVerb: GET
-      description: Produces a prioritized engineering mitigation checklist for a Jira issue based on its risk factors.
+      description: Produces a prioritized engineering mitigation checklist for a Jira
+        issue based on its risk factors.
       inputs:
         issueKey:
           title: Jira Issue Key
@@ -64,4 +67,4 @@ permissions:
 app:
   runtime:
     name: nodejs22.x
-  id: ari:cloud:ecosystem::app/00000000-0000-0000-0000-000000000000
+  id: ari:cloud:ecosystem::app/47af03bf-786a-41e2-84c1-68b42dc881ac
